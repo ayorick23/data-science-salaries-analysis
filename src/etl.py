@@ -1,4 +1,5 @@
 import pandas as pd
+from sqlalchemy import create_engine
 
 def extract(path):
     """"
@@ -73,7 +74,11 @@ def load(df, path):
         path (str): Ruta del archivo CSV de destino
     """
     df.to_csv(path, index=False)
-    df.to_sql("salaries", conn, if_exists="replace", index=False)
+    
+    params = "DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-0HC2CB3\SQLEXPRESS;DATABASE=ds_salaries;Trusted_Connection=yes;"
+    engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
+    
+    df.to_sql("salaries", con=engine, if_exists="replace", index=False)
 
 def main():
     """
