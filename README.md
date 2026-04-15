@@ -16,8 +16,9 @@ El análisis fue desarrollado siguiendo un enfoque end-to-end, incluyendo proces
   - [📈 Principales insights](#-principales-insights)
   - [🚀 Cómo ejecutar el proyecto](#-cómo-ejecutar-el-proyecto)
   - [💡 Valor del proyecto](#-valor-del-proyecto)
+  - [📝 Fuentes de Datos y Créditos](#-fuentes-de-datos-y-créditos)
   - [🎖️ Licencia](#️-licencia)
-  - [✉️ Contacto](#️-contacto)
+  - [📩 Contacto](#-contacto)
 
 ## 🎯 Objetivos
 
@@ -141,11 +142,20 @@ Este proyecto demuestra habilidades clave para un rol de Data Analyst:
 - Creación de dashboards interactivos
 - Comunicación efectiva de resultados
 
+## 📝 Fuentes de Datos y Créditos
+
+Este proyecto ha sido posible gracias a la disponibilidad de datos abiertos. El conjunto de datos principal utilizado para este análisis proviene de:
+
+- **Fuente Primaria:** [ai-jobs.net](https://ai-jobs.net/salaries/download/) - Plataforma original que recopila y distribuye los datos de salarios en el sector tecnológico.
+- **Dataset en Kaggle:** [Data Science Job Salaries](https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries) - Proporcionado por la usuario Ruchi Bhatia.
+
+Agradecemos a ambas plataformas por facilitar el acceso a esta información para fines educativos y de análisis.
+
 ## 🎖️ Licencia
 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
-## ✉️ Contacto
+## 📩 Contacto
 
 Si deseas conocer más sobre este proyecto o colaborar, puedes contactarme:
 
