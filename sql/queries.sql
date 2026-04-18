@@ -5,7 +5,7 @@ SELECT ROUND(AVG(salary_usd), 2) AS avg_salary
 FROM salaries;
 
 -- Salario promedio por rol
-SELECT job_category, ROUND(AVG(salary_usd), 2) AS avg_salary -- categorizar en el etl
+SELECT job_category, ROUND(AVG(salary_usd), 2) AS avg_salary
 FROM salaries
 GROUP BY job_category
 ORDER BY avg_salary DESC;

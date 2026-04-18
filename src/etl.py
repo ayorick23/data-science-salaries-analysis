@@ -23,6 +23,9 @@ def transform(df):
     df = df.drop_duplicates()
     df = df.dropna()
 
+    # Eliminar columna innecesaria
+    df = df.drop("Unnamed: 0", axis=1)
+    
     # Renombrar salario
     df = df.rename(columns={"salary_in_usd": "salary_usd"})
 
@@ -63,6 +66,64 @@ def transform(df):
 
     # Aplicar la función de categorización al salario
     df["salary_category"] = df["salary_usd"].apply(salary_category)
+    
+    # Clasificación de trabajos
+    def classify_job(title):
+        """
+        Función para clasificar el título del trabajo
+        Args:
+            title (str): Título del trabajo
+        Returns:
+            str: Clasificación del trabajo ("Data Scientist", "Data Analyst", "Data Engineer", "Other")
+        """
+        title = title.lower()
+        if "data scientist" in title:
+            return "Data Scientist"
+        elif "data analyst" in title:
+            return "Data Analyst"
+        elif "data engineer" in title:
+            return "Data Engineer"
+        elif "machine learning" in title:
+            return "ML Engineer"
+        elif "analytics" in title:
+            return "Analytics"
+        else:
+            return "Other"
+
+    df["job_category"] = df["job_title"].apply(classify_job)
+    
+    # Mapear país a continente
+    continent_map = {
+        "US": "North America",
+        "CA": "North America",
+        "MX": "North America",
+
+        "BR": "South America",
+        "AR": "South America",
+        "CL": "South America",
+        "CO": "South America",
+
+        "GB": "Europe",
+        "ES": "Europe",
+        "FR": "Europe",
+        "DE": "Europe",
+        "IT": "Europe",
+        "NL": "Europe",
+
+        "IN": "Asia",
+        "CN": "Asia",
+        "JP": "Asia",
+        "SG": "Asia",
+
+        "AU": "Oceania",
+
+        "ZA": "Africa",
+        "NG": "Africa"
+    }
+    
+    df["continent"] = df["company_location"].map(continent_map)
+    df["continent"] = df["continent"].fillna("Other")
+    
 
     return df
 
@@ -73,7 +134,7 @@ def load(df, path):
         df (pd.DataFrame): DataFrame con los datos a cargar
         path (str): Ruta del archivo CSV de destino
     """
-    df.to_csv(path, index=False)
+    df.to_csv(path, index=True)
     
     params = "DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-0HC2CB3\SQLEXPRESS;DATABASE=ds_salaries;Trusted_Connection=yes;"
     engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
