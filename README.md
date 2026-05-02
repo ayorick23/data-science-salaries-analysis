@@ -97,6 +97,7 @@ El dashboard permite explorar de manera interactiva:
 - Impacto del tipo de empleo
 
 ![alt text](dashboard\screenshots\dashboard_gif.gif)
+<img src="dashboard\screenshots\dashboard_gif.gif" width="900" alt="Demo del proyecto">
 
 ## 📈 Principales insights
 
