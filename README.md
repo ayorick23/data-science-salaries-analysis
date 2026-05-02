@@ -96,7 +96,7 @@ El dashboard permite explorar de manera interactiva:
 - Distribución salarial
 - Impacto del tipo de empleo
 
-![dashboard_gif](dashboard\screenshots\dashboard_gif.gif)
+![alt text](dashboard\screenshots\dashboard_gif.gif)
 
 ## 📈 Principales insights
 
