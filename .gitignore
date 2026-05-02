@@ -1,1 +1,5 @@
 .venv/
+*.gif
+*.jpg
+*.jpeg
+*.png
