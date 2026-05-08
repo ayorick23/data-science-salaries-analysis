@@ -96,6 +96,8 @@ El dashboard permite explorar de manera interactiva:
 - Distribución salarial
 - Impacto del tipo de empleo
 
+🔗 Prueba el Dashboard interactivo [aquí](https://app.powerbi.com/view?r=eyJrIjoiNjAyNTYxNjUtMzA4Ni00MDY5LWI1MzUtNDZmODUyYjM1OTY2IiwidCI6IjFmY2I4MjBlLWE1NTktNGRjNS1hM2RjLTQzNjJkZjc2OWQ5MSIsImMiOjR9).
+
 ![alt text](dashboard\screenshots\dashboard_gif.gif)
 <img src="dashboard\screenshots\dashboard_gif.gif" width="900" alt="Demo del proyecto">
 
