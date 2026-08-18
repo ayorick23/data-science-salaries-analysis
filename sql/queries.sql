@@ -56,7 +56,36 @@ GROUP BY company_location
 ORDER BY total_jobs DESC
 LIMIT 10;
 
--- Extremos salariales
+-- Extremos salariales por rol
 SELECT job_category, MAX(salary_usd) AS max_salary, MIN(salary_usd) AS min_salary
 FROM salaries
 GROUP BY job_category;
+
+-- MÉTRICAS AGREGADAS PARA EL DASHBOARD (refresh 2020-2025)
+
+-- Extremos salariales globales (para el footnote de outliers en las tarjetas KPI)
+SELECT MIN(salary_usd) AS min_salary, MAX(salary_usd) AS max_salary, ROUND(AVG(salary_usd), 2) AS avg_salary
+FROM salaries;
+
+-- Salario promedio por tamaño de empresa
+SELECT company_size, ROUND(AVG(salary_usd), 2) AS avg_salary, COUNT(*) AS n
+FROM salaries
+GROUP BY company_size
+ORDER BY avg_salary DESC;
+
+-- Salario promedio por modalidad de trabajo remoto
+SELECT remote_ratio, ROUND(AVG(salary_usd), 2) AS avg_salary, COUNT(*) AS n
+FROM salaries
+GROUP BY remote_ratio
+ORDER BY avg_salary DESC;
+
+-- Top 10 países mejor pagados, ajustado por poder adquisitivo (PPP).
+-- Mismo piso de tamaño de muestra que el ranking nominal. El orden cambia
+-- sustancialmente frente a salary_usd (ver notebook, sección de conclusiones).
+SELECT company_location, ROUND(AVG(salary_usd_ppp), 2) AS avg_salary_ppp, COUNT(*) AS n
+FROM salaries
+WHERE salary_usd_ppp IS NOT NULL
+GROUP BY company_location
+HAVING COUNT(*) >= 5
+ORDER BY avg_salary_ppp DESC
+LIMIT 10;
