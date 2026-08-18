@@ -16,6 +16,73 @@ def extract(path: str) -> pd.DataFrame:
     return pd.read_csv(path)
 
 
+def salary_category(salary: float) -> str:
+    """
+    Función para categorizar el salario
+    Args:
+        salary (float): Salario en USD
+    Returns:
+        str: Categoría del salario ("Low", "Medium", "High")
+    """
+    if salary < 50000:
+        return "Low"
+    elif salary < 100000:
+        return "Medium"
+    else:
+        return "High"
+
+
+def is_data_related(title: str) -> bool:
+    """
+    Indica si un título de trabajo está relacionado a datos/IA/ML/BI
+    Args:
+        title (str): Título del trabajo
+    Returns:
+        bool: True si el título contiene algún calificador de datos/IA
+    """
+    padded_title = f" {title.lower()} "
+    return any(keyword in padded_title for keyword in DATA_ROLE_KEYWORDS)
+
+
+def classify_job(title: str) -> str:
+    """
+    Función para clasificar el título del trabajo en familias de rol
+    Args:
+        title (str): Título del trabajo
+    Returns:
+        str: Categoría del rol dentro del dominio de datos/IA
+    """
+    t = title.lower()
+    is_plain_scientist = (
+        "scientist" in t and "research" not in t and "applied" not in t and "machine learning" not in t
+    )
+    if is_plain_scientist:
+        return "Data Scientist"
+    is_research_role = (
+        "research" in t
+        or "applied scientist" in t
+        or "machine learning researcher" in t
+        or "machine learning scientist" in t
+    )
+    if is_research_role:
+        return "Research Scientist"
+    if "architect" in t:
+        return "Data Architect"
+    if any(k in t for k in ["manager", "head of", "lead", "director"]):
+        return "Data Leadership"
+    if ("engineer" in t and "machine learning" in t) or "ai engineer" in t or "ai developer" in t:
+        return "ML/AI Engineer"
+    if "data engineer" in t:
+        return "Data Engineer"
+    if any(k in t for k in ["analytics", "business intelligence", " bi ", "bi analyst", "bi developer"]):
+        return "Analytics/BI"
+    if "data analyst" in t:
+        return "Data Analyst"
+    if any(k in t for k in ["governance", "specialist", "modeler", "management"]):
+        return "Data Governance/Specialist"
+    return "Other data role"
+
+
 def transform(df: pd.DataFrame) -> pd.DataFrame:
     """
     Función para transformar los datos
@@ -50,80 +117,15 @@ def transform(df: pd.DataFrame) -> pd.DataFrame:
     df["experience_level"] = df["experience_level"].map(exp_map)
     df["employment_type"] = df["employment_type"].map(emp_map)
 
-    # Salary category
-    def salary_category(salary: float) -> str:
-        """
-        Función para categorizar el salario
-        Args:
-            salary (float): Salario en USD
-        Returns:
-            str: Categoría del salario ("Low", "Medium", "High")
-        """
-        if salary < 50000:
-            return "Low"
-        elif salary < 100000:
-            return "Medium"
-        else:
-            return "High"
-
     # Aplicar la función de categorización al salario
     df["salary_category"] = df["salary_usd"].apply(salary_category)
 
     # Filtrar solo roles relacionados a datos/IA/ML/BI (ver reference_data.DATA_ROLE_KEYWORDS)
-    def is_data_related(title: str) -> bool:
-        """
-        Indica si un título de trabajo está relacionado a datos/IA/ML/BI
-        Args:
-            title (str): Título del trabajo
-        Returns:
-            bool: True si el título contiene algún calificador de datos/IA
-        """
-        padded_title = f" {title.lower()} "
-        return any(keyword in padded_title for keyword in DATA_ROLE_KEYWORDS)
-
     n_before = len(df)
     df = df[df["job_title"].apply(is_data_related)].copy()
     print(f"[transform] roles no relacionados a datos/IA excluidos: {n_before - len(df)} de {n_before}")
 
     # Clasificación de trabajos
-    def classify_job(title: str) -> str:
-        """
-        Función para clasificar el título del trabajo en familias de rol
-        Args:
-            title (str): Título del trabajo
-        Returns:
-            str: Categoría del rol dentro del dominio de datos/IA
-        """
-        t = title.lower()
-        is_plain_scientist = (
-            "scientist" in t and "research" not in t and "applied" not in t and "machine learning" not in t
-        )
-        if is_plain_scientist:
-            return "Data Scientist"
-        is_research_role = (
-            "research" in t
-            or "applied scientist" in t
-            or "machine learning researcher" in t
-            or "machine learning scientist" in t
-        )
-        if is_research_role:
-            return "Research Scientist"
-        if "architect" in t:
-            return "Data Architect"
-        if any(k in t for k in ["manager", "head of", "lead", "director"]):
-            return "Data Leadership"
-        if ("engineer" in t and "machine learning" in t) or "ai engineer" in t or "ai developer" in t:
-            return "ML/AI Engineer"
-        if "data engineer" in t:
-            return "Data Engineer"
-        if any(k in t for k in ["analytics", "business intelligence", " bi ", "bi analyst", "bi developer"]):
-            return "Analytics/BI"
-        if "data analyst" in t:
-            return "Data Analyst"
-        if any(k in t for k in ["governance", "specialist", "modeler", "management"]):
-            return "Data Governance/Specialist"
-        return "Other data role"
-
     df["job_category"] = df["job_title"].apply(classify_job)
 
     # Mapear país a continente (ver reference_data.CONTINENT_MAP)

@@ -29,5 +29,8 @@ jobs:
       - name: Type check (mypy)
         run: uv run mypy src/
 
+      - name: Tests (pytest)
+        run: uv run pytest
+
       - name: Run ETL (incluye validación de datos con Pandera)
         run: uv run python src/etl.py

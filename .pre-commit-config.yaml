@@ -21,3 +21,10 @@ repos:
         language: system
         pass_filenames: false
         files: ^src/
+
+      - id: pytest
+        name: pytest
+        entry: uv run pytest
+        language: system
+        pass_filenames: false
+        files: ^(src|tests)/

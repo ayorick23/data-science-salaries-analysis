@@ -55,8 +55,9 @@ El proyecto está estructurado bajo un flujo de trabajo profesional de análisis
 5. **Calidad de código y reproducibilidad**
    - Gestión de dependencias con **uv** (`pyproject.toml` + `uv.lock`, sin instalación manual de servidores de base de datos)
    - **ruff** (lint + format) y **mypy** (type checking) sobre `src/`
+   - **pytest** (`tests/test_etl.py`) sobre la lógica de negocio hecha a mano: categorización de rol, filtro de roles de datos/IA, ajuste PPP y el contrato de datos de Pandera
    - **pre-commit** para validar antes de cada commit
-   - **CI en GitHub Actions** que corre lint, type check y el ETL (con su validación de datos) en cada push
+   - **CI en GitHub Actions** que corre lint, type check, tests y el ETL (con su validación de datos) en cada push
 
 ## Tecnologías utilizadas
 
@@ -64,7 +65,7 @@ El proyecto está estructurado bajo un flujo de trabajo profesional de análisis
 - **SQL** (SQLite)
 - **Power BI**
 - **Jupyter Notebook**
-- **Calidad y CI**: ruff, mypy, pre-commit, GitHub Actions
+- **Calidad y CI**: ruff, mypy, pytest, pre-commit, GitHub Actions
 
 ## Estructura del proyecto
 
@@ -97,6 +98,9 @@ data-ai-compensation-benchmark/
 │   ├── etl.py             # pipeline: extract, transform, enrich_with_ppp, validate, load
 │   ├── reference_data.py  # datos de referencia (mapeo país-continente, keywords de rol)
 │   └── schema.py          # contrato de datos (Pandera)
+│
+├── tests/
+│   └── test_etl.py        # tests de la lógica de negocio (categorización, PPP, schema)
 │
 ├── .gitignore
 ├── .pre-commit-config.yaml
@@ -166,7 +170,13 @@ El detalle completo, con las pruebas estadísticas y las limitaciones del análi
    uv run jupyter notebook notebooks/eda_ds_salaries.ipynb
    ```
 
-5. (Opcional) Verificar calidad de código antes de un commit:
+5. (Opcional) Correr los tests:
+
+   ```bash
+   uv run pytest
+   ```
+
+6. (Opcional) Verificar calidad de código antes de un commit:
 
    ```bash
    uv run ruff check .
