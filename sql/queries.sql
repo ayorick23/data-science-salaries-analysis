@@ -1,5 +1,5 @@
 -- KPIS PRINCIPALES
-USE ds_salaries
+-- Base de datos: data/processed/ds_salaries.db (SQLite)
 -- Salario promedio global
 SELECT ROUND(AVG(salary_usd), 2) AS avg_salary
 FROM salaries;
@@ -16,11 +16,15 @@ FROM salaries
 GROUP BY experience_level
 ORDER BY avg_salary DESC;
 
--- Top 10 países mejor pagados
-SELECT TOP 10 company_location, ROUND(AVG(salary_usd), 2) AS avg_salary
+-- Top 10 países mejor pagados (con piso de tamaño de muestra: se excluyen
+-- países con menos de 5 observaciones, ya que un promedio sobre 1-2 filas
+-- no es representativo)
+SELECT company_location, ROUND(AVG(salary_usd), 2) AS avg_salary, COUNT(*) AS n
 FROM salaries
 GROUP BY company_location
-ORDER BY avg_salary DESC;
+HAVING COUNT(*) >= 5
+ORDER BY avg_salary DESC
+LIMIT 10;
 
 -- Comparación Junior vs Senior
 SELECT experience_level, COUNT(*) AS total_empleados, ROUND(AVG(salary_usd), 2) AS avg_salary
@@ -45,11 +49,12 @@ SELECT salary_category, COUNT(*) AS total
 FROM salaries
 GROUP BY salary_category;
 
--- Países con mas demanada
-SELECT TOP 10 company_location, COUNT(*) AS total_jobs
+-- Países con más demanda
+SELECT company_location, COUNT(*) AS total_jobs
 FROM salaries
 GROUP BY company_location
-ORDER BY total_jobs DESC;
+ORDER BY total_jobs DESC
+LIMIT 10;
 
 -- Extremos salariales
 SELECT job_category, MAX(salary_usd) AS max_salary, MIN(salary_usd) AS min_salary

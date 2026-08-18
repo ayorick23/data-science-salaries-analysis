@@ -1,0 +1,39 @@
+[project]
+name = "data-science-salaries-analysis"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.10.9",
+    "numpy>=2.2.6",
+    "pandas>=2.3.3",
+    "pandera>=0.32.1",
+    "scipy>=1.15.3",
+    "seaborn>=0.13.2",
+    "sqlalchemy>=2.0.52",
+]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "mypy>=2.3.1",
+    "pandas-stubs>=2.3.3.260113",
+    "pre-commit>=4.6.2",
+    "ruff>=0.16.3",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+# 3.12, no 3.10 (requires-python del proyecto): los stubs de numpy usan
+# sintaxis (PEP 695 `type`) que solo el parser de mypy para 3.12+ entiende.
+python_version = "3.12"
+mypy_path = "src"
+disallow_untyped_defs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+ignore_missing_imports = true

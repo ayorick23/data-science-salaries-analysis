@@ -1,72 +1,88 @@
-# 📊 Data Science Salaries Analysis
+# Data & AI Compensation Benchmark
 
-Este proyecto presenta un análisis integral del mercado global de salarios en el área de Data Science, con el objetivo de identificar los principales factores que influyen en la compensación, tales como el rol, nivel de experiencia, ubicación geográfica y tipo de empleo.
+¿Qué factores explican la compensación de profesionales de datos e IA a nivel global, y qué tan defendibles son esas diferencias dado el tamaño real de la muestra? Este proyecto responde esa pregunta para dos audiencias: un equipo de **RR. HH.** evaluando competitividad salarial, y un **profesional de datos/IA** decidiendo en qué especializarse.
 
-El análisis fue desarrollado siguiendo un enfoque end-to-end, incluyendo procesos de ETL, análisis exploratorio de datos (EDA), consultas SQL y visualización interactiva en Power BI.
+> Nota: este proyecto se llamó originalmente *Data Science Salaries Analysis*. El nombre y el enfoque se actualizaron para reflejar con precisión el alcance real (roles de datos **e IA**, no solo "Data Science") y el marco de negocio dual descrito arriba. El repositorio de GitHub conserva su URL original.
 
-## 📚 Tabla de contenidos
+El análisis fue desarrollado siguiendo un enfoque end-to-end: ETL con validación de datos, análisis exploratorio con rigor estadístico (pruebas de hipótesis, intervalos de confianza, ajuste por poder adquisitivo), consultas SQL y visualización interactiva en Power BI.
 
-- [📊 Data Science Salaries Analysis](#-data-science-salaries-analysis)
-  - [📚 Tabla de contenidos](#-tabla-de-contenidos)
-  - [🎯 Objetivos](#-objetivos)
-  - [🧠 Enfoque del análisis](#-enfoque-del-análisis)
-  - [🛠️ Tecnologías utilizadas](#️-tecnologías-utilizadas)
-  - [📂 Estructura del proyecto](#-estructura-del-proyecto)
-  - [📊 Dashboard (Power BI)](#-dashboard-power-bi)
-  - [📈 Principales insights](#-principales-insights)
-  - [🚀 Cómo ejecutar el proyecto](#-cómo-ejecutar-el-proyecto)
-  - [💡 Valor del proyecto](#-valor-del-proyecto)
-  - [📝 Fuentes de Datos y Créditos](#-fuentes-de-datos-y-créditos)
-  - [🎖️ Licencia](#️-licencia)
-  - [📩 Contacto](#-contacto)
+## Tabla de contenidos
 
-## 🎯 Objetivos
+- [Data \& AI Compensation Benchmark](#data--ai-compensation-benchmark)
+  - [Tabla de contenidos](#tabla-de-contenidos)
+  - [Objetivos](#objetivos)
+  - [Enfoque del análisis](#enfoque-del-análisis)
+  - [Tecnologías utilizadas](#tecnologías-utilizadas)
+  - [Estructura del proyecto](#estructura-del-proyecto)
+  - [Dashboard (Power BI)](#dashboard-power-bi)
+  - [Principales insights](#principales-insights)
+  - [Cómo ejecutar el proyecto](#cómo-ejecutar-el-proyecto)
+  - [Valor del proyecto](#valor-del-proyecto)
+  - [Fuentes de Datos y Créditos](#fuentes-de-datos-y-créditos)
+  - [Licencia](#licencia)
 
-- Analizar la distribución de salarios en Data Science a nivel global
-- Identificar los roles mejor remunerados
-- Evaluar el impacto de la experiencia en los salarios
-- Comparar salarios entre países y regiones
-- Proporcionar insights útiles para la toma de decisiones
+## Objetivos
 
-## 🧠 Enfoque del análisis
+- Identificar qué factores (rol/especialización, experiencia, país, modalidad remota, tamaño de empresa) explican la compensación de profesionales de datos e IA a nivel global
+- Cuantificar qué tan defendibles son las diferencias observadas dado el tamaño real de la muestra, con pruebas de hipótesis e intervalos de confianza
+- Comparar compensación entre países ajustando por poder adquisitivo (PPP), no solo por el salario nominal en USD
+- Ofrecer un benchmark de competitividad salarial para equipos de RR. HH.
+- Ofrecer una guía de decisión de especialización para profesionales de datos/IA
 
-El proyecto fue estructurado bajo un flujo de trabajo profesional de análisis de datos:
+## Enfoque del análisis
 
-1. **ETL (Extract, Transform, Load)**
-   - Limpieza de datos
-   - Estandarización de variables
-   - Creación de nuevas características (feature engineering)
+El proyecto está estructurado bajo un flujo de trabajo profesional de análisis de datos:
 
-2. **EDA (Exploratory Data Analysis)**
-   - Análisis de distribuciones
-   - Identificación de outliers
-   - Comparaciones entre variables clave
+1. **ETL (Extract, Transform, Load)** — `src/etl.py`, `src/reference_data.py`, `src/schema.py`
+   - Extracción del dataset y filtrado a roles relacionados a datos/IA/ML/BI (excluyendo títulos genéricos de tecnología)
+   - Feature engineering: categorización de rol (9 familias), continente, categoría salarial
+   - Enriquecimiento con salario ajustado por poder adquisitivo (`salary_usd_ppp`)
+   - Validación del contrato de datos con **Pandera** antes de cargar a SQLite
 
-3. **SQL (Análisis de negocio)**
-   - Consultas para responder preguntas estratégicas
-   - Agregaciones y segmentaciones
-   - Uso de funciones de ventana
+2. **EDA (Exploratory Data Analysis)** — `notebooks/eda_ds_salaries.ipynb`
+   - Análisis de distribuciones e identificación de outliers
+   - Comparaciones entre variables clave (rol, experiencia, país, modalidad remota)
+   - **Rigor estadístico**: prueba de asimetría, Kruskal-Wallis, Mann-Whitney U, intervalos de confianza por bootstrap
+   - Conclusiones separadas por audiencia (RR. HH. / candidatos) y sección explícita de limitaciones
 
-4. **Dashboard en Power BI**
-   - Visualización interactiva
-   - KPIs clave
-   - Filtros dinámicos
+3. **SQL (Análisis de negocio)** — `sql/queries.sql`
+   - Consultas para responder preguntas estratégicas sobre SQLite
+   - Agregaciones y segmentaciones con piso de tamaño de muestra (`HAVING COUNT(*) >= 5`) en rankings por país
 
-## 🛠️ Tecnologías utilizadas
+4. **Dashboard en Power BI** — `dashboard/ds_salaries_dashboard.pbix`
+   - Visualización interactiva, KPIs clave, filtros dinámicos
 
-- **Python** (Pandas, NumPy, Matplotlib, Seaborn)
-- **SQL** (SQL Server)
+5. **Calidad de código y reproducibilidad**
+   - Gestión de dependencias con **uv** (`pyproject.toml` + `uv.lock`, sin instalación manual de servidores de base de datos)
+   - **ruff** (lint + format) y **mypy** (type checking) sobre `src/`
+   - **pre-commit** para validar antes de cada commit
+   - **CI en GitHub Actions** que corre lint, type check y el ETL (con su validación de datos) en cada push
+
+## Tecnologías utilizadas
+
+- **Python** (Pandas, NumPy, Matplotlib, Seaborn, SciPy, Pandera) gestionado con **uv**
+- **SQL** (SQLite)
 - **Power BI**
 - **Jupyter Notebook**
+- **Calidad y CI**: ruff, mypy, pre-commit, GitHub Actions
 
-## 📂 Estructura del proyecto
+## Estructura del proyecto
 
 ```text
-data-science-salaries-analysis/
+data-ai-compensation-benchmark/
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 │
 ├── data/
 │   ├── raw/
+│   │   ├── ds_salaries.csv              # snapshot original 2020-2022 (histórico)
+│   │   ├── ds_salaries_2026.csv         # snapshot activo 2020-2025
+│   │   └── ppp_price_level_index.csv    # índice de poder adquisitivo (Banco Mundial)
 │   └── processed/
+│       ├── ds_salaries_clean.csv
+│       └── ds_salaries.db
 │
 ├── notebooks/
 │   └── eda_ds_salaries.ipynb
@@ -78,15 +94,19 @@ data-science-salaries-analysis/
 │   └── ds_salaries_dashboard.pbix
 │
 ├── src/
-│   └── etl.py
+│   ├── etl.py             # pipeline: extract, transform, enrich_with_ppp, validate, load
+│   ├── reference_data.py  # datos de referencia (mapeo país-continente, keywords de rol)
+│   └── schema.py          # contrato de datos (Pandera)
 │
 ├── .gitignore
-├── requirements.txt
+├── .pre-commit-config.yaml
+├── pyproject.toml
+├── uv.lock
 ├── LICENSE
 └── README.md
 ```
 
-## 📊 Dashboard (Power BI)
+## Dashboard (Power BI)
 
 El dashboard permite explorar de manera interactiva:
 
@@ -98,71 +118,85 @@ El dashboard permite explorar de manera interactiva:
 
 🔗 Prueba el Dashboard interactivo [aquí](https://app.powerbi.com/view?r=eyJrIjoiNjAyNTYxNjUtMzA4Ni00MDY5LWI1MzUtNDZmODUyYjM1OTY2IiwidCI6IjFmY2I4MjBlLWE1NTktNGRjNS1hM2RjLTQzNjJkZjc2OWQ5MSIsImMiOjR9).
 
-![alt text](dashboard\screenshots\dashboard_gif.gif)
-<img src="dashboard\screenshots\dashboard_gif.gif" width="900" alt="Demo del proyecto">
+![Demo del proyecto](dashboard/screenshots/dashboard_gif.gif)
 
-## 📈 Principales insights
+> El dashboard todavía refleja el dataset y las visualizaciones previas al refresh de datos. Actualización pendiente en Power BI Desktop (filtro de tamaño mínimo de muestra por país, gráfico de categorías como barras en vez de línea, caja de texto con insights, footnote de outliers y recaptura de pantallas) — ver el checklist entregado aparte.
 
-- Los roles de **Data Scientist** y **Data Engineer** presentan los salarios más altos
-- El nivel de experiencia es uno de los factores más determinantes en la compensación
-- Estados Unidos lidera el mercado en términos de salario promedio
-- Los empleos Full-time dominan el mercado laboral
-- Existe una alta variabilidad en salarios, especialmente en roles senior
+## Principales insights
 
-## 🚀 Cómo ejecutar el proyecto
+**Para RR. HH.:**
+
+- El nivel de experiencia es el factor más determinante y estadísticamente significativo (Kruskal-Wallis, p ≈ 0)
+- El tamaño de la empresa importa: medianas/grandes pagan ~$150,000, pequeñas ~$86,000
+- El trabajo 100% remoto no implica pagar menos que el presencial ($145,250 vs. $151,010 en promedio)
+- Comparar países solo con `salary_usd_ppp`, tamaño de muestra ≥ 5 e intervalos de confianza que no se superpongan
+
+**Para profesionales evaluando en qué especializarse:**
+
+- **ML/AI Engineer** es, en promedio, la especialización mejor pagada ($193,981 general, $203,637 en Senior)
+- La ruta de liderazgo (Data Leadership) paga en promedio *menos* que quedarse como especialista IC senior
+- El salto Junior → Senior casi duplica la mediana salarial ($85,000 → $156,400), diferencia estadísticamente significativa
+- Ajustado por poder adquisitivo, un salario nominal menor en un país más barato (ej. India) puede superar en términos reales a un salario nominal mayor en un país caro (ej. Suiza)
+
+El detalle completo, con las pruebas estadísticas y las limitaciones del análisis, está en la última sección del notebook.
+
+## Cómo ejecutar el proyecto
 
 1. Clonar el repositorio:
 
    ```bash
-   git clone https://github.com/ayorick23/ds-salaries-analysis.git
+   git clone https://github.com/ayorick23/data-ai-compensation-benchmark.git
    ```
 
-2. Instalar dependencias:
+2. Instalar dependencias (usa [uv](https://docs.astral.sh/uv/)):
 
    ```bash
-   pip install -r requirements.txt
+   uv sync
    ```
 
-3. Ejecutar el ETL:
+3. Ejecutar el ETL (genera `data/processed/ds_salaries_clean.csv` y una base SQLite en `data/processed/ds_salaries.db`, sin ningún servidor de base de datos externo):
 
    ```bash
-   python src/etl.py
+   uv run python src/etl.py
    ```
 
 4. Abrir el notebook:
 
    ```bash
-   jupyter notebook notebooks/EDA_ds_salaries.ipynb
+   uv run jupyter notebook notebooks/eda_ds_salaries.ipynb
    ```
 
-## 💡 Valor del proyecto
+5. (Opcional) Verificar calidad de código antes de un commit:
 
-Este proyecto demuestra habilidades clave para un rol de Data Analyst:
+   ```bash
+   uv run ruff check .
+   uv run mypy src/
+   uv run pre-commit run --all-files
+   ```
 
-- Limpieza y transformación de datos
-- Análisis exploratorio con enfoque de negocio
-- Uso de SQL para generación de insights
-- Creación de dashboards interactivos
-- Comunicación efectiva de resultados
+## Valor del proyecto
 
-## 📝 Fuentes de Datos y Créditos
+Este proyecto demuestra habilidades clave para un rol de Data Analyst / Data Scientist orientado a negocio:
 
-Este proyecto ha sido posible gracias a la disponibilidad de datos abiertos. El conjunto de datos principal utilizado para este análisis proviene de:
+- Limpieza y transformación de datos, incluyendo decisiones de calidad de datos no triviales (ej. no aplicar `drop_duplicates()` a ciegas sobre una encuesta sin ID de respondiente)
+- Integración de una fuente de datos externa (índice de poder adquisitivo del Banco Mundial) para enriquecer el análisis
+- Rigor estadístico: pruebas de hipótesis e intervalos de confianza para no confundir ruido de muestra con señal real
+- Validación de datos declarativa (Pandera) como contrato explícito, no solo limpieza implícita
+- Uso de SQL para generación de insights con control de tamaño de muestra
+- Creación de dashboards interactivos en Power BI
+- Prácticas de calidad y reproducibilidad: gestión de dependencias con uv, lint/type checking con ruff/mypy, pre-commit y CI
+- Comunicación de resultados diferenciada por audiencia de negocio
 
-- **Fuente Primaria:** [ai-jobs.net](https://ai-jobs.net/salaries/download/) - Plataforma original que recopila y distribuye los datos de salarios en el sector tecnológico.
-- **Dataset en Kaggle:** [Data Science Job Salaries](https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries) - Proporcionado por la usuario Ruchi Bhatia.
+## Fuentes de Datos y Créditos
 
-Agradecemos a ambas plataformas por facilitar el acceso a esta información para fines educativos y de análisis.
+Este proyecto ha sido posible gracias a la disponibilidad de datos abiertos.
 
-## 🎖️ Licencia
+- **Fuente Primaria (dataset de salarios):** [aijobs.net](https://aijobs.net/salaries/) - Plataforma que recopila y distribuye datos de salarios en IA, ML y Data Science (el dominio se renombró de ai-jobs.net a aijobs.net). El snapshot 2020-2025 usado en este proyecto se obtuvo del repositorio oficial [foorilla/ai-jobs-net-salaries](https://github.com/foorilla/ai-jobs-net-salaries) (CC0), mantenido por el mismo equipo.
+- **Dataset original en Kaggle:** [Data Science Job Salaries](https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries) - Proporcionado por la usuaria Ruchi Bhatia, base del snapshot 2020-2022 que este proyecto usó originalmente (`data/raw/ds_salaries.csv`, conservado por trazabilidad histórica).
+- **Índice de poder adquisitivo:** [World Bank Open Data — Price level index (GDP), indicador PA.NUS.GDP.PLI](https://data.worldbank.org/indicator/PA.NUS.GDP.PLI) - usado para el ajuste por PPP (`salary_usd_ppp`).
+
+Agradecemos a estas plataformas por facilitar el acceso a esta información para fines educativos y de análisis.
+
+## Licencia
 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
-
-## 📩 Contacto
-
-Si deseas conocer más sobre este proyecto o colaborar, puedes contactarme:
-
-[![GitHub](https://img.shields.io/badge/-GitHub-181717?style=flat&logo=github&logoColor=white)](https://github.com/ayorick23)
-[![Gmail](https://img.shields.io/badge/-Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:mayorickhenry@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=linkedin&logoColor=white)](https://linkedin.com/in/dereckmendez/)
-[![Kaggle](https://img.shields.io/badge/-Kaggle-181717?style=flat&logo=kaggle&logoColor=white)](https://www.kaggle.com/dereckmendez)
