@@ -1,5 +1,5 @@
 -- KPIS PRINCIPALES
--- Base de datos: data/processed/ds_salaries.db (SQLite)
+-- Base de datos: data/processed/compensation.db (SQLite)
 -- Salario promedio global
 SELECT ROUND(AVG(salary_usd), 2) AS avg_salary
 FROM salaries;

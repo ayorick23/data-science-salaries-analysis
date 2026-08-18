@@ -207,14 +207,14 @@ def main() -> None:
     """
     Función principal para ejecutar el proceso ETL
     """
-    # data/raw/ds_salaries.csv (2020-2022, 607 filas) se conserva en el repo
+    # data/raw/compensation_2020_2022.csv (607 filas) se conserva en el repo
     # por trazabilidad histórica; el pipeline activo usa el snapshot ampliado
     # 2020-2025 descargado de foorilla/ai-jobs-net-salaries.
-    df = extract("data/raw/ds_salaries_2026.csv")
+    df = extract("data/raw/compensation_2020_2025.csv")
     df = transform(df)
     df = enrich_with_ppp(df, "data/raw/ppp_price_level_index.csv")
     df = validate(df)
-    load(df, "data/processed/ds_salaries_clean.csv", "data/processed/ds_salaries.db")
+    load(df, "data/processed/compensation.csv", "data/processed/compensation.db")
 
 
 if __name__ == "__main__":

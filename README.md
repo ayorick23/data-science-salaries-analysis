@@ -39,7 +39,7 @@ El proyecto está estructurado bajo un flujo de trabajo profesional de análisis
    - Enriquecimiento con salario ajustado por poder adquisitivo (`salary_usd_ppp`)
    - Validación del contrato de datos con **Pandera** antes de cargar a SQLite
 
-2. **EDA (Exploratory Data Analysis)** — `notebooks/eda_ds_salaries.ipynb`
+2. **EDA (Exploratory Data Analysis)** — `notebooks/eda_compensation.ipynb`
    - Análisis de distribuciones e identificación de outliers
    - Comparaciones entre variables clave (rol, experiencia, país, modalidad remota)
    - **Rigor estadístico**: prueba de asimetría, Kruskal-Wallis, Mann-Whitney U, intervalos de confianza por bootstrap
@@ -49,7 +49,7 @@ El proyecto está estructurado bajo un flujo de trabajo profesional de análisis
    - Consultas para responder preguntas estratégicas sobre SQLite
    - Agregaciones y segmentaciones con piso de tamaño de muestra (`HAVING COUNT(*) >= 5`) en rankings por país
 
-4. **Dashboard en Power BI** — `dashboard/ds_salaries_dashboard.pbix`
+4. **Dashboard en Power BI** — `dashboard/compensation_dashboard.pbix`
    - Visualización interactiva, KPIs clave, filtros dinámicos
 
 5. **Calidad de código y reproducibilidad**
@@ -78,21 +78,21 @@ data-ai-compensation-benchmark/
 │
 ├── data/
 │   ├── raw/
-│   │   ├── ds_salaries.csv              # snapshot original 2020-2022 (histórico)
-│   │   ├── ds_salaries_2026.csv         # snapshot activo 2020-2025
+│   │   ├── compensation_2020_2022.csv   # snapshot original (histórico)
+│   │   ├── compensation_2020_2025.csv   # snapshot activo
 │   │   └── ppp_price_level_index.csv    # índice de poder adquisitivo (Banco Mundial)
 │   └── processed/
-│       ├── ds_salaries_clean.csv
-│       └── ds_salaries.db
+│       ├── compensation.csv
+│       └── compensation.db
 │
 ├── notebooks/
-│   └── eda_ds_salaries.ipynb
+│   └── eda_compensation.ipynb
 │
 ├── sql/
 │   └── queries.sql
 │
 ├── dashboard/
-│   └── ds_salaries_dashboard.pbix
+│   └── compensation_dashboard.pbix
 │
 ├── src/
 │   ├── etl.py             # pipeline: extract, transform, enrich_with_ppp, validate, load
@@ -158,7 +158,7 @@ El detalle completo, con las pruebas estadísticas y las limitaciones del análi
    uv sync
    ```
 
-3. Ejecutar el ETL (genera `data/processed/ds_salaries_clean.csv` y una base SQLite en `data/processed/ds_salaries.db`, sin ningún servidor de base de datos externo):
+3. Ejecutar el ETL (genera `data/processed/compensation.csv` y una base SQLite en `data/processed/compensation.db`, sin ningún servidor de base de datos externo):
 
    ```bash
    uv run python src/etl.py
@@ -167,7 +167,7 @@ El detalle completo, con las pruebas estadísticas y las limitaciones del análi
 4. Abrir el notebook:
 
    ```bash
-   uv run jupyter notebook notebooks/eda_ds_salaries.ipynb
+   uv run jupyter notebook notebooks/eda_compensation.ipynb
    ```
 
 5. (Opcional) Correr los tests:
@@ -202,7 +202,7 @@ Este proyecto demuestra habilidades clave para un rol de Data Analyst / Data Sci
 Este proyecto ha sido posible gracias a la disponibilidad de datos abiertos.
 
 - **Fuente Primaria (dataset de salarios):** [aijobs.net](https://aijobs.net/salaries/) - Plataforma que recopila y distribuye datos de salarios en IA, ML y Data Science (el dominio se renombró de ai-jobs.net a aijobs.net). El snapshot 2020-2025 usado en este proyecto se obtuvo del repositorio oficial [foorilla/ai-jobs-net-salaries](https://github.com/foorilla/ai-jobs-net-salaries) (CC0), mantenido por el mismo equipo.
-- **Dataset original en Kaggle:** [Data Science Job Salaries](https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries) - Proporcionado por la usuaria Ruchi Bhatia, base del snapshot 2020-2022 que este proyecto usó originalmente (`data/raw/ds_salaries.csv`, conservado por trazabilidad histórica).
+- **Dataset original en Kaggle:** [Data Science Job Salaries](https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries) - Proporcionado por la usuaria Ruchi Bhatia, base del snapshot 2020-2022 que este proyecto usó originalmente (`data/raw/compensation_2020_2022.csv`, conservado por trazabilidad histórica).
 - **Índice de poder adquisitivo:** [World Bank Open Data — Price level index (GDP), indicador PA.NUS.GDP.PLI](https://data.worldbank.org/indicator/PA.NUS.GDP.PLI) - usado para el ajuste por PPP (`salary_usd_ppp`).
 
 Agradecemos a estas plataformas por facilitar el acceso a esta información para fines educativos y de análisis.
