@@ -729,7 +729,7 @@ wheels = [
 ]
 
 [[package]]
-name = "data-science-salaries-analysis"
+name = "data-ai-compensation-benchmark"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

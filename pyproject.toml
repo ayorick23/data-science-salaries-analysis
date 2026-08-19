@@ -1,5 +1,5 @@
 [project]
-name = "data-science-salaries-analysis"
+name = "data-ai-compensation-benchmark"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [

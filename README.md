@@ -2,7 +2,7 @@
 
 ¿Qué factores explican la compensación de profesionales de datos e IA a nivel global, y qué tan defendibles son esas diferencias dado el tamaño real de la muestra? Este proyecto responde esa pregunta para dos audiencias: un equipo de **RR. HH.** evaluando competitividad salarial, y un **profesional de datos/IA** decidiendo en qué especializarse.
 
-> Nota: este proyecto se llamó originalmente *Data Science Salaries Analysis*. El nombre y el enfoque se actualizaron para reflejar con precisión el alcance real (roles de datos **e IA**, no solo "Data Science") y el marco de negocio dual descrito arriba. El repositorio de GitHub conserva su URL original.
+> Nota: este proyecto se llamó originalmente *Data Science Salaries Analysis*. El nombre y el enfoque se actualizaron para reflejar con precisión el alcance real (roles de datos **e IA**, no solo "Data Science") y el marco de negocio dual descrito arriba. El repositorio de GitHub se renombró en consecuencia; ver el detalle de esta decisión en [`docs/decisions/0011-renombrado-del-proyecto-y-del-repositorio.md`](docs/decisions/0011-renombrado-del-proyecto-y-del-repositorio.md).
 
 El análisis fue desarrollado siguiendo un enfoque end-to-end: ETL con validación de datos, análisis exploratorio con rigor estadístico (pruebas de hipótesis, intervalos de confianza, ajuste por poder adquisitivo), consultas SQL y visualización interactiva en Power BI.
 
@@ -84,6 +84,9 @@ data-ai-compensation-benchmark/
 │   └── processed/
 │       ├── compensation.csv
 │       └── compensation.db
+│
+├── docs/
+│   └── decisions/          # ADRs: por qué se tomó cada decisión técnica relevante
 │
 ├── notebooks/
 │   └── eda_compensation.ipynb
