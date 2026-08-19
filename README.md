@@ -125,9 +125,7 @@ El dashboard permite explorar de manera interactiva:
 
 🔗 Prueba el Dashboard interactivo [aquí](https://app.powerbi.com/view?r=eyJrIjoiNjAyNTYxNjUtMzA4Ni00MDY5LWI1MzUtNDZmODUyYjM1OTY2IiwidCI6IjFmY2I4MjBlLWE1NTktNGRjNS1hM2RjLTQzNjJkZjc2OWQ5MSIsImMiOjR9).
 
-![Demo del proyecto](dashboard/screenshots/dashboard_gif.gif)
-
-> El dashboard todavía refleja el dataset y las visualizaciones previas al refresh de datos. Actualización pendiente en Power BI Desktop (filtro de tamaño mínimo de muestra por país, gráfico de categorías como barras en vez de línea, caja de texto con insights, footnote de outliers y recaptura de pantallas) — ver el checklist entregado aparte.
+> El dashboard todavía refleja el dataset y las visualizaciones previas al refresh de datos. Actualización pendiente en Power BI Desktop (filtro de tamaño mínimo de muestra por país, gráfico de categorías como barras en vez de línea, caja de texto con insights, footnote de outliers y recaptura de pantallas) — ver el checklist entregado aparte. Las capturas anteriores (pre-refresh) se retiraron del repo; se recapturan una vez aplicado ese checklist.
 
 ## Principales insights
 
