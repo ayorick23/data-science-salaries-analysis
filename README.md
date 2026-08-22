@@ -1,8 +1,13 @@
 # Data & AI Compensation Benchmark
 
+[![CI](https://github.com/ayorick23/data-ai-compensation-benchmark/actions/workflows/ci.yml/badge.svg)](https://github.com/ayorick23/data-ai-compensation-benchmark/actions/workflows/ci.yml)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org)
+[![uv](https://img.shields.io/badge/managed%20with-uv-de5fe9)](https://docs.astral.sh/uv/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 ¿Qué factores explican la compensación de profesionales de datos e IA a nivel global, y qué tan defendibles son esas diferencias dado el tamaño real de la muestra? Este proyecto responde esa pregunta para dos audiencias: un equipo de **RR. HH.** evaluando competitividad salarial, y un **profesional de datos/IA** decidiendo en qué especializarse.
 
-> Nota: este proyecto se llamó originalmente *Data Science Salaries Analysis*. El nombre y el enfoque se actualizaron para reflejar con precisión el alcance real (roles de datos **e IA**, no solo "Data Science") y el marco de negocio dual descrito arriba. El repositorio de GitHub se renombró en consecuencia; ver el detalle de esta decisión en [`docs/decisions/0011-renombrado-del-proyecto-y-del-repositorio.md`](docs/decisions/0011-renombrado-del-proyecto-y-del-repositorio.md).
+> Nota: este proyecto se llamó originalmente _Data Science Salaries Analysis_. El nombre y el enfoque se actualizaron para reflejar con precisión el alcance real (roles de datos **e IA**, no solo "Data Science") y el marco de negocio dual descrito arriba. El repositorio de GitHub se renombró en consecuencia; ver el detalle de esta decisión en [`docs/decisions/0011-renombrado-del-proyecto-y-del-repositorio.md`](docs/decisions/0011-renombrado-del-proyecto-y-del-repositorio.md).
 
 El análisis fue desarrollado siguiendo un enfoque end-to-end: ETL con validación de datos, análisis exploratorio con rigor estadístico (pruebas de hipótesis, intervalos de confianza, ajuste por poder adquisitivo), consultas SQL y visualización interactiva en Power BI.
 
@@ -10,24 +15,30 @@ El análisis fue desarrollado siguiendo un enfoque end-to-end: ETL con validaci�
 
 - [Data \& AI Compensation Benchmark](#data--ai-compensation-benchmark)
   - [Tabla de contenidos](#tabla-de-contenidos)
-  - [Objetivos](#objetivos)
+  - [Problema de negocio](#problema-de-negocio)
+  - [Qué hace el proyecto](#qué-hace-el-proyecto)
   - [Enfoque del análisis](#enfoque-del-análisis)
-  - [Tecnologías utilizadas](#tecnologías-utilizadas)
-  - [Estructura del proyecto](#estructura-del-proyecto)
+  - [Stack tecnológico](#stack-tecnológico)
+  - [Estructura del repositorio](#estructura-del-repositorio)
   - [Dashboard (Power BI)](#dashboard-power-bi)
   - [Principales insights](#principales-insights)
-  - [Cómo ejecutar el proyecto](#cómo-ejecutar-el-proyecto)
+  - [Cómo ejecutarlo](#cómo-ejecutarlo)
   - [Valor del proyecto](#valor-del-proyecto)
-  - [Fuentes de Datos y Créditos](#fuentes-de-datos-y-créditos)
+  - [Fuentes de datos y créditos](#fuentes-de-datos-y-créditos)
+  - [Caso de estudio](#caso-de-estudio)
   - [Licencia](#licencia)
 
-## Objetivos
+## Problema de negocio
 
-- Identificar qué factores (rol/especialización, experiencia, país, modalidad remota, tamaño de empresa) explican la compensación de profesionales de datos e IA a nivel global
-- Cuantificar qué tan defendibles son las diferencias observadas dado el tamaño real de la muestra, con pruebas de hipótesis e intervalos de confianza
-- Comparar compensación entre países ajustando por poder adquisitivo (PPP), no solo por el salario nominal en USD
-- Ofrecer un benchmark de competitividad salarial para equipos de RR. HH.
-- Ofrecer una guía de decisión de especialización para profesionales de datos/IA
+Comparar compensación de profesionales de datos e IA a nivel global es fácil de hacer mal: los rankings simples por país o rol suelen apoyarse en tamaños de muestra insuficientes para ser confiables, y comparan salarios nominales en USD sin ajustar por poder adquisitivo. Este proyecto responde esa pregunta con rigor estadístico — pruebas de hipótesis, intervalos de confianza y ajuste por PPP — para dos audiencias con decisiones distintas: un equipo de RR. HH. evaluando competitividad salarial, y un profesional de datos/IA decidiendo en qué especializarse.
+
+## Qué hace el proyecto
+
+- Identifica qué factores (rol/especialización, experiencia, país, modalidad remota, tamaño de empresa) explican la compensación de profesionales de datos e IA a nivel global.
+- Cuantifica qué tan defendibles son las diferencias observadas dado el tamaño real de la muestra, con pruebas de hipótesis e intervalos de confianza.
+- Compara compensación entre países ajustando por poder adquisitivo (PPP), no solo por el salario nominal en USD.
+- Ofrece un benchmark de competitividad salarial para equipos de RR. HH.
+- Ofrece una guía de decisión de especialización para profesionales de datos/IA.
 
 ## Enfoque del análisis
 
@@ -59,23 +70,28 @@ El proyecto está estructurado bajo un flujo de trabajo profesional de análisis
    - **pre-commit** para validar antes de cada commit
    - **CI en GitHub Actions** que corre lint, type check, tests y el ETL (con su validación de datos) en cada push
 
-## Tecnologías utilizadas
+## Stack tecnológico
 
-- **Python** (Pandas, NumPy, Matplotlib, Seaborn, SciPy, Pandera) gestionado con **uv**
-- **SQL** (SQLite)
-- **Power BI**
-- **Jupyter Notebook**
-- **Calidad y CI**: ruff, mypy, pytest, pre-commit, GitHub Actions
+| Categoría                       | Herramienta                                        |
+| ------------------------------- | -------------------------------------------------- |
+| Lenguaje y análisis de datos    | Python (Pandas, NumPy, Matplotlib, Seaborn, SciPy) |
+| Validación de datos             | Pandera                                            |
+| Base de datos                   | SQLite                                             |
+| Consultas y análisis de negocio | SQL                                                |
+| Dashboard / BI                  | Power BI                                           |
+| Notebooks                       | Jupyter Notebook                                   |
+| Testing                         | Pytest                                             |
+| Calidad de código               | Ruff, MyPy, pre-commit                             |
+| CI/CD                           | GitHub Actions                                     |
+| Empaquetado                     | uv                                                 |
 
-## Estructura del proyecto
+## Estructura del repositorio
 
-```text
+```plain text
 data-ai-compensation-benchmark/
-│
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
-│
 ├── data/
 │   ├── raw/
 │   │   ├── compensation_2020_2022.csv   # snapshot original (histórico)
@@ -84,27 +100,21 @@ data-ai-compensation-benchmark/
 │   └── processed/
 │       ├── compensation.csv
 │       └── compensation.db
-│
 ├── docs/
-│   └── decisions/          # ADRs: por qué se tomó cada decisión técnica relevante
-│
+│   ├── decisions/          # ADRs — decisiones de arquitectura y tooling
+│   └── CASE_STUDY.md
 ├── notebooks/
 │   └── eda_compensation.ipynb
-│
 ├── sql/
 │   └── queries.sql
-│
 ├── dashboard/
 │   └── compensation_dashboard.pbix
-│
 ├── src/
 │   ├── etl.py             # pipeline: extract, transform, enrich_with_ppp, validate, load
 │   ├── reference_data.py  # datos de referencia (mapeo país-continente, keywords de rol)
 │   └── schema.py          # contrato de datos (Pandera)
-│
 ├── tests/
 │   └── test_etl.py        # tests de la lógica de negocio (categorización, PPP, schema)
-│
 ├── .gitignore
 ├── .pre-commit-config.yaml
 ├── pyproject.toml
@@ -139,13 +149,13 @@ El dashboard permite explorar de manera interactiva:
 **Para profesionales evaluando en qué especializarse:**
 
 - **ML/AI Engineer** es, en promedio, la especialización mejor pagada ($193,981 general, $203,637 en Senior)
-- La ruta de liderazgo (Data Leadership) paga en promedio *menos* que quedarse como especialista IC senior
+- La ruta de liderazgo (Data Leadership) paga en promedio _menos_ que quedarse como especialista IC senior
 - El salto Junior → Senior casi duplica la mediana salarial ($85,000 → $156,400), diferencia estadísticamente significativa
 - Ajustado por poder adquisitivo, un salario nominal menor en un país más barato (ej. India) puede superar en términos reales a un salario nominal mayor en un país caro (ej. Suiza)
 
 El detalle completo, con las pruebas estadísticas y las limitaciones del análisis, está en la última sección del notebook.
 
-## Cómo ejecutar el proyecto
+## Cómo ejecutarlo
 
 1. Clonar el repositorio:
 
@@ -198,16 +208,24 @@ Este proyecto demuestra habilidades clave para un rol de Data Analyst / Data Sci
 - Prácticas de calidad y reproducibilidad: gestión de dependencias con uv, lint/type checking con ruff/mypy, pre-commit y CI
 - Comunicación de resultados diferenciada por audiencia de negocio
 
-## Fuentes de Datos y Créditos
+## Fuentes de datos y créditos
 
 Este proyecto ha sido posible gracias a la disponibilidad de datos abiertos.
 
-- **Fuente Primaria (dataset de salarios):** [aijobs.net](https://aijobs.net/salaries/) - Plataforma que recopila y distribuye datos de salarios en IA, ML y Data Science (el dominio se renombró de ai-jobs.net a aijobs.net). El snapshot 2020-2025 usado en este proyecto se obtuvo del repositorio oficial [foorilla/ai-jobs-net-salaries](https://github.com/foorilla/ai-jobs-net-salaries) (CC0), mantenido por el mismo equipo.
+- **Fuente primaria (dataset de salarios):** [aijobs.net](https://aijobs.net/salaries/) - Plataforma que recopila y distribuye datos de salarios en IA, ML y Data Science (el dominio se renombró de ai-jobs.net a aijobs.net). El snapshot 2020-2025 usado en este proyecto se obtuvo del repositorio oficial [foorilla/ai-jobs-net-salaries](https://github.com/foorilla/ai-jobs-net-salaries) (CC0), mantenido por el mismo equipo.
 - **Dataset original en Kaggle:** [Data Science Job Salaries](https://www.kaggle.com/datasets/ruchi798/data-science-job-salaries) - Proporcionado por la usuaria Ruchi Bhatia, base del snapshot 2020-2022 que este proyecto usó originalmente (`data/raw/compensation_2020_2022.csv`, conservado por trazabilidad histórica).
 - **Índice de poder adquisitivo:** [World Bank Open Data — Price level index (GDP), indicador PA.NUS.GDP.PLI](https://data.worldbank.org/indicator/PA.NUS.GDP.PLI) - usado para el ajuste por PPP (`salary_usd_ppp`).
 
 Agradecemos a estas plataformas por facilitar el acceso a esta información para fines educativos y de análisis.
 
+## Caso de estudio
+
+Para un resumen orientado a negocio del proyecto — problema, resultados, decisiones clave y capturas del dashboard — ver [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md).
+
 ## Licencia
 
-Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+Distribuido bajo licencia [MIT](LICENSE).
+
+---
+
+_Proyecto de portafolio personal — no reutiliza código ni datos de ningún proyecto profesional o propiedad de terceros._

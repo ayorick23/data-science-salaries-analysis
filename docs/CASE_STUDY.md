@@ -6,15 +6,15 @@ Benchmark end-to-end de compensación para profesionales de datos e IA a nivel g
 
 ## De un vistazo
 
-| Métrica | Valor |
-|---|---|
-| Filas analizadas | 85,088 (2020–2025) |
-| Familias de rol evaluadas | 9 |
-| Países con datos | 90 (59 con muestra ≥ 5) |
+| Métrica                          | Valor                                         |
+| -------------------------------- | --------------------------------------------- |
+| Filas analizadas                 | 85,088 (2020–2025)                            |
+| Familias de rol evaluadas        | 9                                             |
+| Países con datos                 | 90 (59 con muestra ≥ 5)                       |
 | Brecha Junior → Senior (mediana) | $85,000 → $156,400 (+84%, Mann-Whitney p ≈ 0) |
-| Especialización mejor pagada | ML/AI Engineer ($183,450 mediana) |
-| Tests automatizados | 31 |
-| Decisiones documentadas (ADR) | 11 |
+| Especialización mejor pagada     | ML/AI Engineer ($183,450 mediana)             |
+| Tests automatizados              | 31                                            |
+| Decisiones documentadas (ADR)    | 11                                            |
 
 ---
 
@@ -108,11 +108,11 @@ SELECT company_size, ROUND(AVG(salary_usd), 2) AS avg_salary, COUNT(*) AS n
 FROM salaries GROUP BY company_size ORDER BY avg_salary DESC;
 ```
 
-| company_size | avg_salary | n |
-|---|---|---|
-| L (grande) | $156,906 | 2,849 |
-| M (mediana) | $149,294 | 82,043 |
-| S (pequeña) | $86,015 | 196 |
+| company_size | avg_salary | n      |
+| ------------ | ---------- | ------ |
+| L (grande)   | $156,906   | 2,849  |
+| M (mediana)  | $149,294   | 82,043 |
+| S (pequeña)  | $86,015    | 196    |
 
 ```sql
 -- Salario promedio por modalidad de trabajo remoto
@@ -120,11 +120,11 @@ SELECT remote_ratio, ROUND(AVG(salary_usd), 2) AS avg_salary, COUNT(*) AS n
 FROM salaries GROUP BY remote_ratio ORDER BY avg_salary DESC;
 ```
 
-| remote_ratio | avg_salary | n |
-|---|---|---|
-| 0 (presencial) | $151,010 | 64,577 |
-| 100 (full remoto) | $145,250 | 20,215 |
-| 50 (híbrido) | $82,326 | 296 |
+| remote_ratio      | avg_salary | n      |
+| ----------------- | ---------- | ------ |
+| 0 (presencial)    | $151,010   | 64,577 |
+| 100 (full remoto) | $145,250   | 20,215 |
+| 50 (híbrido)      | $82,326    | 296    |
 
 El trabajo 100% remoto no paga menos que el presencial — la brecha real y notoriamente más chica está en el híbrido (50%), con una muestra mucho menor.
 

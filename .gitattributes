@@ -1,0 +1,3 @@
+# Excluir notebooks del cálculo de lenguaje principal de GitHub (linguist).
+# Son solo exploración, el código de producción vive en src/.
+*.ipynb linguist-documentation
